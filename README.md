@@ -1,73 +1,52 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# Car Trading App
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+The goal of our project is to simplify the life of people who want to quickly sell or buy a car.
+User can both place an ad and view others ads. Also search filters can be specified for more precise results.
 
-## Installation
+## Roles
 
-```bash
-$ npm install
-```
+- User:
+  - logged in user - can add/manage his ads
+  - not logged in user - can only view the website content
+- Admin: manages the system - can manage users ads, give the user admin rights
 
-## Running the app
+## Detailed on roles
 
-```bash
-# development
-$ npm run start
+Their rights
 
-# watch mode
-$ npm run start:dev
+### User
 
-# production mode
-$ npm run start:prod
-```
+User has following options:
 
-## Test
+- Register
+- View ads
+- Use search
+  Registered:
+- Login
+  Logged in:
+- Place an ad
+- Remove his ad
+- Edit his ad information
+- Edit his profile information
+- Delete his account
+- Change his password
 
-```bash
-# unit tests
-$ npm run test
+### Admin
 
-# e2e tests
-$ npm run test:e2e
+Admin has following rights and options:
 
-# test coverage
-$ npm run test:cov
-```
+- Add new admins (give the user admin rights)
+- Change his and others password
+- Delete other users ad
+- Delete other users account
 
-## Support
+## Tech Stack
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+- Nest.js + TS
+  Nest.js is a progressive Node.js framework, which extends frameworks like Express by adding modular organization. The use of modular structure simplifies the division of the project into separate blocks.
+  It uses TypeScript which enabless developers to add types to our variables and provides compile errors and warnings based on them.
+- MongoDB + Mongoose
+  MongoDB is not using tables for relationships. Data is stored in the form of JSON style document - structure of a single object is clear. Also MongoDB is easy to scale.
+  Mongoose is an object document modeling layer that sits on top of Node's MongoDB driver. It has built in validation for schema definitions. Mongoose defines a schema for your data models so your documents follow a specific structure with pre-defined data types.
