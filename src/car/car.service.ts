@@ -52,7 +52,7 @@ export class CarService {
   }
 
   update(id: number, car: Car) {
-    this.cars.map((item) => {
+    this.cars = this.cars.map((item) => {
       return item.id === id ? { id, ...car } : item;
     });
   }
