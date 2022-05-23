@@ -23,9 +23,11 @@
     "lint-staged": "lint-staged"
   },
   "dependencies": {
+    "@nestjs/axios": "^0.0.8",
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "axios": "^0.27.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"
@@ -44,6 +46,7 @@
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^8.0.0",
     "jest": "28.0.3",
     "lint-staged": "^12.4.1",
     "prettier": "^2.3.2",
@@ -53,8 +56,7 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "4.0.0",
-    "typescript": "^4.3.5",
-    "husky": "^8.0.0"
+    "typescript": "^4.3.5"
   },
   "jest": {
     "moduleFileExtensions": [
