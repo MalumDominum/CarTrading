@@ -1,4 +1,7 @@
+/* eslint operator-linebreak: "off" */
 import { Injectable } from '@nestjs/common';
+import { firstValueFrom } from 'rxjs';
+import { HttpService } from '@nestjs/axios';
 import {
   CarType,
   FuelType,
@@ -9,6 +12,15 @@ import { Car } from './models/car.model';
 
 @Injectable()
 export class CarService {
+  constructor(private readonly httpService: HttpService) {}
+
+  async getManufacturers() {
+    const url =
+      'https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json';
+    const { data } = await firstValueFrom(this.httpService.get(url));
+    return data;
+  }
+
   private getCurrentId = (): number => {
     return this.cars.length > 0 ? this.cars[this.cars.length - 1].id : 0;
   };
