@@ -1,3 +1,5 @@
+import { Car } from 'src/car/models/car.model';
+
 export class User {
   readonly id: number;
 
@@ -13,11 +15,11 @@ export class User {
 
   readonly photoPath: string;
 
-  readonly registrationTime: string;
+  readonly registrationTime: Date;
 
-  readonly likedCars: string[];
+  readonly likedCars: Car[];
 
-  readonly carsForSale: string[];
+  readonly carsForSale: Car[];
 
   readonly role: number;
 }

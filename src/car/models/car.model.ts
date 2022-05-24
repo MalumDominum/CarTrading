@@ -1,15 +1,39 @@
+import {
+  CarType,
+  FuelType,
+  TechnicalCondition,
+  TransmissionType,
+} from './car.enums';
+
 export class Car {
-  readonly id: number;
+  id: number;
 
-  readonly make: string;
+  carType: CarType;
 
-  readonly model: string;
+  model: string;
+  // model: ModelDto; // { id, name, brand: { id, name } }
 
-  readonly bodyType: string;
+  // sellingRegion: RegionDto; // { id, name, country: { id, name } }
 
-  readonly mileage: number;
+  productionYear: number;
 
-  readonly color: string;
+  price: number;
 
-  readonly year: number;
+  technicalCondition: TechnicalCondition;
+
+  fuelType: FuelType;
+
+  transmissionType: TransmissionType;
+
+  engineCapacity: number;
+
+  power: number;
+
+  mileage: number;
+
+  seatsNumber: number;
+
+  color: string;
+
+  photoPaths: string[];
 }
