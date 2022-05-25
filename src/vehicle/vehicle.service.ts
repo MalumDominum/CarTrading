@@ -7,11 +7,19 @@ import {
   VehicleResponse,
   MakeForVehicleType,
 } from './models/model-for-make-id-vehicle-type.model';
-import { VehicleType } from './models/vehicle.model';
+import {
+  VehicleType,
+  VehicleTypeData,
+  vehicleTypes,
+} from './models/vehicle.model';
 
 @Injectable()
 export class VehicleService {
   constructor(private readonly httpService: HttpService) {}
+
+  getVehicleTypes(): VehicleTypeData[] {
+    return vehicleTypes;
+  }
 
   async getModelsForMakeIdVehicleType(
     id: ParseIntPipe,

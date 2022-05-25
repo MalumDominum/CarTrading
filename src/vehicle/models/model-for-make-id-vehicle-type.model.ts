@@ -1,3 +1,5 @@
+import { VehicleTypeData } from './vehicle.model';
+
 export type VehicleResponse<T> = {
   Count: number;
   Message: string;
@@ -16,7 +18,5 @@ export type MakeForVehicleType = {
   VehicleTypeId: number;
   VehicleTypeName: string;
 };
-export type ModelForMakeIdVehicleType = ModelForMake & {
-  VehicleTypeId: number;
-  VehicleTypeName: string;
-};
+
+export type ModelForMakeIdVehicleType = ModelForMake & VehicleTypeData;

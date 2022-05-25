@@ -1,7 +1,7 @@
 // eslint-disable-next-line object-curly-newline
 import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { VehicleService } from './vehicle.service';
-import { VehicleType } from './models/vehicle.model';
+import { VehicleType, VehicleTypeData } from './models/vehicle.model';
 import {
   MakeForVehicleType,
   ModelForMake,
@@ -11,6 +11,11 @@ import {
 @Controller('/vehicle')
 export class VehicleController {
   constructor(private readonly vehicleService: VehicleService) {}
+
+  @Get('/types')
+  getVehicleTypes(): VehicleTypeData[] {
+    return this.vehicleService.getVehicleTypes();
+  }
 
   @Get(':type')
   async getMakesForVehicleType(
