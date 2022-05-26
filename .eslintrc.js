@@ -23,6 +23,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/indent': 'off',
     'arrow-body-style': ['error', 'always'],
     'max-len': ['warn', { code: 80 }],
     'import/prefer-default-export': 'off',

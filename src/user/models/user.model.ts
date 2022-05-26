@@ -1,4 +1,4 @@
-import { Car } from 'src/car/models/car.model';
+import { Advertisement } from 'src/advertisement/models/advertisement.model';
 
 export class User {
   readonly id: number;
@@ -17,9 +17,9 @@ export class User {
 
   readonly registrationTime: Date;
 
-  readonly likedCars: Car[];
+  readonly likedCars: Advertisement[];
 
-  readonly carsForSale: Car[];
+  readonly carsForSale: Advertisement[];
 
   readonly role: number;
 }

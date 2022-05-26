@@ -3,9 +3,9 @@ import {
   FuelType,
   TechnicalCondition,
   TransmissionType,
-} from './car.enums';
+} from './advertisement.enums';
 
-export class Car {
+export class Advertisement {
   id: number;
 
   carType: CarType;

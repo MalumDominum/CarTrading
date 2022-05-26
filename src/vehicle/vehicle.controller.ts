@@ -32,7 +32,6 @@ export class VehicleController {
   @Get(':id/:type')
   async getModelsForMakeIdVehicleType(
     @Param('id') id: ParseIntPipe,
-    // eslint-disable-next-line @typescript-eslint/indent
     @Param('type') type: VehicleType,
   ): Promise<ModelForMakeIdVehicleType[]> {
     return (await this.vehicleService.getModelsForMakeIdVehicleType(id, type))
