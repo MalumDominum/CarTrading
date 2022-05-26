@@ -1,57 +1,48 @@
 /* eslint operator-linebreak: "off" */
 import { Injectable } from '@nestjs/common';
-import { firstValueFrom } from 'rxjs';
-import { HttpService } from '@nestjs/axios';
 import {
   CarType,
   FuelType,
   TechnicalCondition,
   TransmissionType,
-} from './models/car.enums';
-import { Car } from './models/car.model';
+} from './models/advertisement.enums';
+import { Advertisement } from './models/advertisement.model';
 
 @Injectable()
-export class CarService {
-  constructor(private readonly httpService: HttpService) {}
-
-  async getManufacturers() {
-    const url =
-      'https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json';
-    const { data } = await firstValueFrom(this.httpService.get(url));
-    return data;
-  }
-
+export class AdvertisementService {
   private getCurrentId = (): number => {
-    return this.cars.length > 0 ? this.cars[this.cars.length - 1].id : 0;
+    return this.advertisements.length > 0
+      ? this.advertisements[this.advertisements.length - 1].id
+      : 0;
   };
 
-  getAll(): Car[] {
-    return this.cars;
+  getAll(): Advertisement[] {
+    return this.advertisements;
   }
 
-  getById(id: number): Car {
-    return this.cars.find((car) => {
+  getById(id: number): Advertisement {
+    return this.advertisements.find((car) => {
       return car.id === id;
     });
   }
 
-  create(car: Car) {
-    this.cars.push({ id: this.getCurrentId() + 1, ...car });
+  create(car: Advertisement) {
+    this.advertisements.push({ id: this.getCurrentId() + 1, ...car });
   }
 
-  update(id: number, car: Car) {
-    this.cars = this.cars.map((item) => {
+  update(id: number, car: Advertisement) {
+    this.advertisements = this.advertisements.map((item) => {
       return item.id === id ? { id, ...car } : item;
     });
   }
 
   delete(id: number) {
-    this.cars = this.cars.filter((car) => {
+    this.advertisements = this.advertisements.filter((car) => {
       return car.id !== id;
     });
   }
 
-  private cars: Car[] = [
+  private advertisements: Advertisement[] = [
     {
       id: 1,
       model: '3 LR Dual Motor Rest',

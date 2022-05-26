@@ -4,7 +4,7 @@ import {
   FuelType,
   TechnicalCondition,
   TransmissionType,
-} from 'src/car/models/car.enums';
+} from 'src/advertisement/models/advertisement.enums';
 import { User } from './models/user.model';
 
 @Injectable()
