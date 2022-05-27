@@ -67,3 +67,6 @@ export class Advertisement {
 }
 
 export const AdvertisementSchema = SchemaFactory.createForClass(Advertisement);
+
+AdvertisementSchema.set('toJSON', { getters: true });
+AdvertisementSchema.set('toObject', { getters: true });
