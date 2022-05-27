@@ -5,6 +5,10 @@
 The goal of our project is to simplify the life of people who want to quickly sell or buy a car.
 User can both place an ad and view others ads. Also search filters can be specified for more precise results.
 
+## Car Trading Model
+
+![DbModel](Car%20Trading%20Model.png 'Database Model')
+
 ## Roles
 
 - User:

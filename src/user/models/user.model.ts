@@ -1,13 +1,15 @@
+import { Document } from 'mongoose';
 import { Advertisement } from 'src/advertisement/models/advertisement.model';
+import { UserRole } from './user-role.enum';
 
-export class User {
+export class User extends Document {
   readonly id: number;
 
   readonly email: string;
 
-  readonly passwordHash: string;
+  readonly passwordHash: BinaryData;
 
-  readonly passwordSalt: string;
+  readonly passwordSalt: BinaryData;
 
   readonly firstName: string;
 
@@ -21,5 +23,5 @@ export class User {
 
   readonly carsForSale: Advertisement[];
 
-  readonly role: number;
+  readonly role: UserRole;
 }
