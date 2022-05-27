@@ -23,36 +23,18 @@ export const AdvertisementSchema = new mongoose.Schema({
   technicalCondition: {
     type: Number,
     enum: TechnicalCondition,
-    get: (enumValue: number) => {
-      return TechnicalCondition[enumValue];
-    },
-    set: (enumValue: TechnicalCondition) => {
-      return TechnicalCondition[enumValue];
-    },
     default: TechnicalCondition.CompletelyUndamaged,
   },
 
   fuelType: {
     type: Number,
     enum: FuelType,
-    get: (enumValue: number) => {
-      return FuelType[enumValue];
-    },
-    set: (enumValue: FuelType) => {
-      return FuelType[enumValue];
-    },
     required: true,
   },
 
   transmissionType: {
     type: Number,
     enum: TransmissionType,
-    get: (enumValue: number) => {
-      return TransmissionType[enumValue];
-    },
-    set: (enumValue: TransmissionType) => {
-      return TransmissionType[enumValue];
-    },
     required: true,
   },
 

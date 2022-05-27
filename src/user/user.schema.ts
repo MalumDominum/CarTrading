@@ -31,12 +31,6 @@ export const UserSchema = new mongoose.Schema({
   role: {
     type: Number,
     enum: UserRole,
-    get: (enumValue: number) => {
-      return UserRole[enumValue];
-    },
-    set: (enumValue: UserRole) => {
-      return UserRole[enumValue];
-    },
     default: UserRole.Base,
   },
 });
