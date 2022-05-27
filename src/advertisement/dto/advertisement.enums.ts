@@ -1,14 +1,3 @@
-export enum CarType {
-  Passenger = 0,
-  Moto = 1,
-  Truck = 2,
-  Trailer = 3,
-  Bus = 4,
-  MotorHome = 5,
-  AirTransport = 6,
-  WaterTransport = 7,
-}
-
 export enum FuelType {
   Benzine = 0,
   Diesel = 1,
