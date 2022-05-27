@@ -1,7 +1,6 @@
 /* eslint operator-linebreak: "off" */
 import { Injectable } from '@nestjs/common';
 import {
-  CarType,
   FuelType,
   TechnicalCondition,
   TransmissionType,
@@ -45,10 +44,11 @@ export class AdvertisementService {
   private advertisements: Advertisement[] = [
     {
       id: 1,
-      model: '3 LR Dual Motor Rest',
+      makeId: 31,
+      modelId: 441,
       productionYear: 2022,
       price: 57999,
-      carType: CarType.Passenger,
+      vehicleTypeId: 2,
       technicalCondition: TechnicalCondition.CompletelyUndamaged,
       fuelType: FuelType.Electro,
       transmissionType: TransmissionType.Automatic,
@@ -64,10 +64,11 @@ export class AdvertisementService {
     },
     {
       id: 2,
-      model: 'Outlander XL 3.0ROKFORD',
+      makeId: 31,
+      modelId: 441,
       productionYear: 2007,
       price: 8200,
-      carType: CarType.Passenger,
+      vehicleTypeId: 2,
       technicalCondition: TechnicalCondition.Repaired,
       fuelType: FuelType.Diesel,
       transmissionType: TransmissionType.Manual,
@@ -83,10 +84,11 @@ export class AdvertisementService {
     },
     {
       id: 3,
-      model: 'Camaro ZL1 FACELIFT',
+      makeId: 31,
+      modelId: 441,
       productionYear: 2016,
       price: 44999,
-      carType: CarType.Passenger,
+      vehicleTypeId: 2,
       technicalCondition: TechnicalCondition.ProfessionallyRepaired,
       fuelType: FuelType.Benzine,
       transmissionType: TransmissionType.SemiAutomatic,

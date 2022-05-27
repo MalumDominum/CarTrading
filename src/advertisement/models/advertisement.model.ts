@@ -1,5 +1,4 @@
 import {
-  CarType,
   FuelType,
   TechnicalCondition,
   TransmissionType,
@@ -8,10 +7,11 @@ import {
 export class Advertisement {
   id: number;
 
-  carType: CarType;
+  makeId: number;
 
-  model: string;
-  // model: ModelDto; // { id, name, brand: { id, name } }
+  modelId: number;
+
+  vehicleTypeId: number;
 
   // sellingRegion: RegionDto; // { id, name, country: { id, name } }
 

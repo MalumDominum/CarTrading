@@ -24,14 +24,14 @@ export class VehicleController {
     return (await this.vehicleService.getMakesForVehicleType(type)).Results;
   }
 
-  @Get('make/:make')
+  @Get('by-make/:make')
   async getModelsForMake(@Param('make') make: string): Promise<ModelForMake[]> {
     return (await this.vehicleService.getModelsForMake(make)).Results;
   }
 
-  @Get(':id/:type')
+  @Get(':makeId/:type')
   async getModelsForMakeIdVehicleType(
-    @Param('id') id: ParseIntPipe,
+    @Param('makeId') id: ParseIntPipe,
     @Param('type') type: VehicleType,
   ): Promise<ModelForMakeIdVehicleType[]> {
     return (await this.vehicleService.getModelsForMakeIdVehicleType(id, type))
