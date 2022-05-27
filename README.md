@@ -7,7 +7,7 @@ User can both place an ad and view others ads. Also search filters can be specif
 
 ## Car Trading Model
 
-![Image alt text]($/Car Trading Model.png)
+![DbModel](Car%20Trading%20Model.png 'Database Model')
 
 ## Roles
 
