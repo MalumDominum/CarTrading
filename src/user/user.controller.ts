@@ -4,11 +4,11 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
-import { User } from './models/user.model';
+import { ObjectId } from 'mongoose';
+import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 
 @Controller('/users')
@@ -16,27 +16,27 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  getAll(): User[] {
+  getAll() {
     return this.userService.getAll();
   }
 
   @Get('/:id')
-  getById(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.getById(id);
+  getById(@Param('id') id: ObjectId) {
+    return this.userService.getOne(id);
   }
 
   @Post()
-  create(@Body() user: User) {
+  create(@Body() user: UserDto) {
     this.userService.create(user);
   }
 
   @Put('/:id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() user: User) {
+  update(@Param('id') id: ObjectId, @Body() user: UserDto) {
     return this.userService.update(id, user);
   }
 
   @Delete('/:id')
-  delete(@Param('id', ParseIntPipe) id: number) {
+  delete(@Param('id') id: ObjectId) {
     this.userService.delete(id);
   }
 }

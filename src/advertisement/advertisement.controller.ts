@@ -1,45 +1,45 @@
 import {
   Controller,
-  Delete,
   Get,
   Post,
-  Param,
   Body,
-  Put,
-  ParseIntPipe,
+  Patch,
+  Param,
+  Delete,
 } from '@nestjs/common';
+import { ObjectId } from 'mongoose';
 import { AdvertisementService } from './advertisement.service';
-import { Advertisement } from './models/advertisement.model';
+import { AdvertisementDto } from './dto/advertisement.dto';
 
-@Controller('/advertisements')
+@Controller('advertisements')
 export class AdvertisementController {
   constructor(private readonly advertisementService: AdvertisementService) {}
 
-  @Get()
-  getAll(): Advertisement[] {
-    return this.advertisementService.getAll();
-  }
-
-  @Get('/:id')
-  getById(@Param('id', ParseIntPipe) id: number) {
-    return this.advertisementService.getById(id);
-  }
-
   @Post()
-  create(@Body() advertisement: Advertisement) {
-    this.advertisementService.create(advertisement);
+  create(@Body() createAdvertisementDto: AdvertisementDto) {
+    return this.advertisementService.create(createAdvertisementDto);
   }
 
-  @Put('/:id')
+  @Get()
+  findAll() {
+    return this.advertisementService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: ObjectId) {
+    return this.advertisementService.findOne(id);
+  }
+
+  @Patch(':id')
   update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() advertisement: Advertisement,
+    @Param('id') id: ObjectId,
+    @Body() updateAdvertisementDto: AdvertisementDto,
   ) {
-    return this.advertisementService.update(id, advertisement);
+    return this.advertisementService.update(id, updateAdvertisementDto);
   }
 
-  @Delete('/:id')
-  delete(@Param('id', ParseIntPipe) id: number) {
-    this.advertisementService.delete(id);
+  @Delete(':id')
+  remove(@Param('id') id: ObjectId) {
+    return this.advertisementService.remove(id);
   }
 }
