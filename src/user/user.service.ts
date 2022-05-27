@@ -10,13 +10,11 @@ export class UserService {
   ) {}
 
   async getAll(): Promise<User[]> {
-    return this.UserModel.find().exec();
+    return this.UserModel.find();
   }
 
-  async getById(id: number): Promise<User> {
-    return this.UserModel.findOne((user: User) => {
-      return user.id === id;
-    }).exec();
+  async getById(userId: number): Promise<User> {
+    return this.UserModel.findOne({ id: userId });
   }
 
   async create(user: User): Promise<User> {
@@ -24,16 +22,11 @@ export class UserService {
     return createdUser.save();
   }
 
-  async update(id: number, user: User) {
-    this.UserModel.updateOne((previous: User) => {
-      return previous.id === id ? { id, ...user } : previous;
-    });
+  async update(userId: number, user: User) {
+    return this.UserModel.updateOne({ id: userId }, user);
   }
 
-  async delete(id: number): Promise<boolean> {
-    const result = await this.UserModel.deleteOne((user: User) => {
-      return user.id !== id;
-    });
-    return result.deletedCount === 1;
+  async delete(userId: number) {
+    return this.UserModel.deleteOne({ id: userId });
   }
 }
