@@ -1,39 +1,42 @@
+import { Document } from 'mongoose';
 import {
-  FuelType,
   TechnicalCondition,
+  FuelType,
   TransmissionType,
 } from './advertisement.enums';
 
-export class Advertisement {
-  id: number;
+export class Advertisement extends Document {
+  readonly id: number;
 
-  makeId: number;
+  readonly makeId: number;
 
-  modelId: number;
+  readonly modelId: number;
 
-  vehicleTypeId: number;
+  readonly vehicleTypeId: number;
 
-  // sellingRegion: RegionDto; // { id, name, country: { id, name } }
+  // readonly sellingRegion: RegionDto; // { id; name; country: { id; name } }
 
-  productionYear: number;
+  readonly productionYear: number;
 
-  price: number;
+  readonly price: number;
 
-  technicalCondition: TechnicalCondition;
+  readonly technicalCondition: TechnicalCondition;
 
-  fuelType: FuelType;
+  readonly fuelType: FuelType;
 
-  transmissionType: TransmissionType;
+  readonly transmissionType: TransmissionType;
 
-  engineCapacity: number;
+  readonly engineCapacity: number;
 
-  power: number;
+  readonly power: number;
 
-  mileage: number;
+  readonly mileage: number;
 
-  seatsNumber: number;
+  readonly seatsNumber: number;
 
-  color: string;
+  readonly colors: string[];
 
-  photoPaths: string[];
+  readonly photoPaths: string[];
+
+  readonly announcementTime: Date;
 }

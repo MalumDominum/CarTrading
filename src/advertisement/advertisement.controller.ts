@@ -16,30 +16,30 @@ export class AdvertisementController {
   constructor(private readonly advertisementService: AdvertisementService) {}
 
   @Get()
-  getAll(): Advertisement[] {
+  async getAll(): Promise<Advertisement[]> {
     return this.advertisementService.getAll();
   }
 
   @Get('/:id')
-  getById(@Param('id', ParseIntPipe) id: number) {
+  async getById(@Param('id', ParseIntPipe) id: number): Promise<Advertisement> {
     return this.advertisementService.getById(id);
   }
 
   @Post()
-  create(@Body() advertisement: Advertisement) {
-    this.advertisementService.create(advertisement);
+  async create(@Body() advertisement: Advertisement): Promise<Advertisement> {
+    return this.advertisementService.create(advertisement);
   }
 
   @Put('/:id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() advertisement: Advertisement,
   ) {
-    return this.advertisementService.update(id, advertisement);
+    this.advertisementService.update(id, advertisement);
   }
 
   @Delete('/:id')
-  delete(@Param('id', ParseIntPipe) id: number) {
+  async delete(@Param('id', ParseIntPipe) id: number) {
     this.advertisementService.delete(id);
   }
 }
