@@ -35,8 +35,12 @@ export class AdvertisementService {
   ): Promise<Advertisement> {
     const ad = await this.advertisementModel.findByIdAndUpdate(
       id,
-      updateAdvertisementDto,
+      {
+        ...updateAdvertisementDto,
+      },
+      { new: true },
     );
+    await ad.save();
     return ad;
   }
 
