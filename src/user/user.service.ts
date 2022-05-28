@@ -27,9 +27,14 @@ export class UserService {
   }
 
   async update(id: ObjectId, user: UserDto): Promise<User> {
-    const res = await this.userModel.findByIdAndUpdate(id, {
-      ...user,
-    });
+    const res = await this.userModel.findByIdAndUpdate(
+      id,
+      {
+        ...user,
+      },
+      { new: true },
+    );
+    await res.save();
     return res;
   }
 
