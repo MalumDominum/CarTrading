@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
 import { UserDto } from './dto/user.dto';
@@ -22,7 +22,7 @@ export class UserController {
 
   @Get('/:id')
   getById(@Param('id') id: ObjectId) {
-    return this.userService.getOne(id);
+    return this.userService.getOneById(id);
   }
 
   @Post()
@@ -30,7 +30,7 @@ export class UserController {
     this.userService.create(user);
   }
 
-  @Put('/:id')
+  @Patch('/:id')
   update(@Param('id') id: ObjectId, @Body() user: UserDto) {
     return this.userService.update(id, user);
   }
@@ -38,5 +38,10 @@ export class UserController {
   @Delete('/:id')
   delete(@Param('id') id: ObjectId) {
     this.userService.delete(id);
+  }
+
+  @Get('/email/:email')
+  getByEmail(@Param('email') email: string) {
+    return this.userService.getOneByEmail(email);
   }
 }

@@ -16,7 +16,7 @@ export class UserService {
     return users;
   }
 
-  async getOne(id: ObjectId): Promise<User> {
+  async getOneById(id: ObjectId): Promise<User> {
     const user = await this.userModel.findById(id);
     return user;
   }
@@ -42,5 +42,10 @@ export class UserService {
     const user = await this.userModel.findByIdAndDelete(id);
     // eslint-disable-next-line no-underscore-dangle
     return user._id;
+  }
+
+  async getOneByEmail(email: string): Promise<User> {
+    const user = await this.userModel.findOne({ email });
+    return user.toObject();
   }
 }
