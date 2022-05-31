@@ -15,9 +15,6 @@ export class User {
   passwordHash: Buffer;
 
   @Prop({ required: true })
-  passwordSalt: Buffer;
-
-  @Prop({ required: true })
   firstName: string;
 
   @Prop({ required: true })

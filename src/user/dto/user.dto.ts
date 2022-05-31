@@ -4,10 +4,6 @@ import { UserRole } from './user-role.enum';
 export class UserDto {
   readonly email: string;
 
-  readonly passwordHash: BinaryData;
-
-  readonly passwordSalt: BinaryData;
-
   readonly firstName: string;
 
   readonly lastName: string;
