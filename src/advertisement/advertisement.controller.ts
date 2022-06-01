@@ -6,8 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Roles } from 'src/auth/roles/roles.decorator';
+import { RolesGuard } from 'src/auth/roles/roles.guard';
+import { UserRole } from 'src/user/dto/user-role.enum';
 import { AdvertisementService } from './advertisement.service';
 import { AdvertisementDto } from './dto/advertisement.dto';
 
@@ -20,6 +25,8 @@ export class AdvertisementController {
     return this.advertisementService.create(createAdvertisementDto);
   }
 
+  @Roles(UserRole.Admin)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.advertisementService.findAll();
