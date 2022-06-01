@@ -5,7 +5,9 @@ import { PassportModule } from '@nestjs/passport';
 import { UserModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './jwt-auth.guard';
 import { JwtStrategy } from './jwt.strategy';
+import { RolesGuard } from './roles/roles.guard';
 import { Token, TokenSchema } from './schema/token.schema';
 
 @Module({
@@ -15,7 +17,7 @@ import { Token, TokenSchema } from './schema/token.schema';
     JwtModule.register({}),
     MongooseModule.forFeature([{ name: Token.name, schema: TokenSchema }]),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, JwtAuthGuard, RolesGuard],
   controllers: [AuthController],
   exports: [AuthService],
 })
