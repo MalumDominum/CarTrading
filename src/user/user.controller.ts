@@ -8,6 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
+import { RegistrationDto } from 'src/auth/dto/auth.dto';
 import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 
@@ -26,7 +27,7 @@ export class UserController {
   }
 
   @Post()
-  create(@Body() user: UserDto) {
+  create(@Body() user: RegistrationDto) {
     this.userService.create(user);
   }
 
