@@ -16,5 +16,5 @@ export class UserDto {
 
   readonly carsForSale: AdvertisementDto[];
 
-  readonly role: UserRole;
+  readonly roles: UserRole[];
 }
