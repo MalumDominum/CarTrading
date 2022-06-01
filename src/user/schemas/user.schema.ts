@@ -43,8 +43,11 @@ export class User {
   })
   carsForSale: Advertisement[];
 
-  @Prop({ enum: UserRole, default: UserRole.Base })
-  role: number;
+  @Prop({
+    type: [{ type: Number, enum: UserRole }],
+    default: [UserRole.Base],
+  })
+  roles: number[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
