@@ -7,10 +7,13 @@ import {
   HttpException,
   HttpStatus,
   Req,
+  UseGuards,
+  Get,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto, RegistrationDto } from './dto/auth.dto';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('/auth')
 export class AuthController {
@@ -34,6 +37,12 @@ export class AuthController {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/profile')
+  getProfile(@Req() req) {
+    return req.user;
   }
 
   @Post('/register')

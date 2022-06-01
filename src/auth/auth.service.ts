@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserDto } from 'src/user/dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -16,15 +15,6 @@ export class AuthService {
     private jwtService: JwtService,
     @InjectModel(Token.name) private readonly tokenModel: Model<Token>,
   ) {}
-
-  async validateUser(email: string, pass: string): Promise<UserDto> {
-    const user = await this.userService.getOneByEmail(email);
-    if (user && user.passwordHash.toString() === pass) {
-      const { passwordHash, ...result } = user;
-      return { ...result };
-    }
-    return null;
-  }
 
   async login(user: LoginDto) {
     const candidate = await this.userService.getOneByEmail(user.email);
@@ -77,9 +67,11 @@ export class AuthService {
     const user = { userId, email };
     const accessToken = this.jwtService.sign(user, {
       secret: jwtConstants.secret,
+      expiresIn: '30m',
     });
     const refreshToken = this.jwtService.sign(user, {
       secret: jwtConstants.secretRefresh,
+      expiresIn: '30d',
     });
     return { accessToken, refreshToken };
   }
