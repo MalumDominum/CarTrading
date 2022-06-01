@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
 import * as mongoose from 'mongoose';
+import { RegistrationDto } from 'src/auth/dto/auth.dto';
 import { UserDto } from './dto/user.dto';
-import { User } from './schemas/user.schema';
+import { User, UserDocument } from './schemas/user.schema';
 
 @Injectable()
 export class UserService {
@@ -16,13 +17,16 @@ export class UserService {
     return users;
   }
 
-  async getOneById(id: ObjectId): Promise<User> {
+  async getOneById(id: ObjectId): Promise<UserDocument> {
     const user = await this.userModel.findById(id);
     return user;
   }
 
-  async create(user: UserDto): Promise<User> {
-    const res = await this.userModel.create(user);
+  async create(user: RegistrationDto): Promise<UserDocument> {
+    const res = await this.userModel.create({
+      ...user,
+      passwordHash: user.password,
+    });
     return res;
   }
 
@@ -44,8 +48,8 @@ export class UserService {
     return user._id;
   }
 
-  async getOneByEmail(email: string): Promise<User> {
+  async getOneByEmail(email: string): Promise<UserDocument> {
     const user = await this.userModel.findOne({ email });
-    return user.toObject();
+    return user;
   }
 }

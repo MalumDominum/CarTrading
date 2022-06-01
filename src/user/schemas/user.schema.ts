@@ -12,7 +12,7 @@ export class User {
   email: string;
 
   @Prop({ required: true })
-  passwordHash: Buffer;
+  passwordHash: string;
 
   @Prop({ required: true })
   firstName: string;
@@ -21,10 +21,10 @@ export class User {
   lastName: string;
 
   @Prop({
-    required: true,
     get: (fileName: string) => {
       return `${process.env.OBJECT_STORAGE_ROOT_URL}${fileName}`;
     },
+    default: '',
   })
   photoPath: string;
 
@@ -33,11 +33,13 @@ export class User {
 
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Advertisement' }],
+    default: [],
   })
   likedCars: Advertisement[];
 
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Advertisement' }],
+    default: [],
   })
   carsForSale: Advertisement[];
 
