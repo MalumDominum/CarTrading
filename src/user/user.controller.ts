@@ -5,12 +5,15 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Inject,
+  LoggerService,
   Param,
   Patch,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/roles/roles.decorator';
 import { RolesGuard } from 'src/auth/roles/roles.guard';
@@ -22,12 +25,17 @@ import { UserService } from './user.service';
 
 @Controller('/users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    @Inject(WINSTON_MODULE_NEST_PROVIDER)
+    private readonly logger: LoggerService,
+  ) {}
 
   @Roles(UserRole.Admin)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   async getAll() {
+    this.logger.log(`Getting all users`);
     const res = await this.userService.getAll();
     return res;
   }
@@ -37,8 +45,10 @@ export class UserController {
   @Get('/:id')
   async getById(@Param('id') id: ObjectId) {
     try {
+      this.logger.log(`Getting user with id ${id}`);
       return await this.userService.getOneById(id);
     } catch (e) {
+      this.logger.error(`Error getting user with id ${id} - ${e.message}`);
       throw new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,

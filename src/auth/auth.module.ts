@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
@@ -14,7 +15,16 @@ import { Token, TokenSchema } from './schema/token.schema';
   imports: [
     UserModule,
     PassportModule,
-    JwtModule.register({}),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => {
+        return {
+          secret: configService.get<string>('JWT_SECRET'),
+        };
+      },
+      inject: [ConfigService],
+    }),
+    ConfigModule,
     MongooseModule.forFeature([{ name: Token.name, schema: TokenSchema }]),
   ],
   providers: [AuthService, JwtStrategy, JwtAuthGuard, RolesGuard],
