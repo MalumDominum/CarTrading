@@ -11,7 +11,7 @@ import {
   Inject,
   UseGuards,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AuthService } from './auth.service';
 import { LoginDto, RegistrationDto } from './dto/auth.dto';
@@ -83,7 +83,7 @@ export class AuthController {
       res.clearCookie('refreshToken');
       return res.json(token);
     } catch (e) {
-      this.logger.error(`Error logout user - ${e.message}`);
+      this.logger.error(`Error logout user ${req.user.email} - ${e.message}`);
       throw new HttpException(
         {
           status: HttpStatus.UNAUTHORIZED,
@@ -94,10 +94,11 @@ export class AuthController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/refresh')
-  async refresh(@Res() res: Response, @Req() req: Request) {
+  async refresh(@Res() res: Response, @Req() req) {
     try {
-      this.logger.log('Refresh token');
+      this.logger.log(`Refreshing token by user - ${req.user.email}`);
       const { refreshToken } = req.cookies;
       const userData = await this.authService.refresh(refreshToken);
       res.cookie('refreshToken', userData.refreshToken, {
@@ -106,7 +107,9 @@ export class AuthController {
       });
       return res.json(userData);
     } catch (e) {
-      this.logger.error(`Error while refreshing the token - ${e.message}`);
+      this.logger.error(
+        `Error while refreshing the token by user - ${req.user.email} - ${e.message}`,
+      );
       throw new HttpException(
         {
           status: HttpStatus.UNAUTHORIZED,

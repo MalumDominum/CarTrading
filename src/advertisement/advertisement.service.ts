@@ -3,7 +3,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { AdvertisementDto } from './dto/advertisement.dto';
-import { Advertisement } from './schemas/advertisement.schema';
+import {
+  Advertisement,
+  AdvertisementDocument,
+} from './schemas/advertisement.schema';
 
 @Injectable()
 export class AdvertisementService {
@@ -24,7 +27,7 @@ export class AdvertisementService {
 
   async create(
     createAdvertisementDto: AdvertisementDto,
-  ): Promise<Advertisement> {
+  ): Promise<AdvertisementDocument> {
     const ad = await this.advertisementModel.create(createAdvertisementDto);
     return ad;
   }
