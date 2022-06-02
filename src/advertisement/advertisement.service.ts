@@ -71,22 +71,15 @@ export class AdvertisementService {
     if (!user) {
       throw new Error('User not found');
     }
-    if (!user.carsForSale.includes(ad)) {
+    if (!user.carsForSale.includes(ad.id)) {
       throw new Error('You are not allowed to update this advertisement');
     }
-    ad.update({ ...updateAdvertisementDto }, { new: true });
-    await ad.save();
-    return ad;
-
-    // const ad = await this.advertisementModel.findByIdAndUpdate(
-    //   id,
-    //   {
-    //     ...updateAdvertisementDto,
-    //   },
-    //   { new: true },
-    // );
-    // await ad.save();
-    // return ad;
+    const newAd = await this.advertisementModel.findByIdAndUpdate(
+      id,
+      { ...updateAdvertisementDto },
+      { new: true },
+    );
+    return newAd;
   }
 
   async remove(id: ObjectId): Promise<mongoose.Types.ObjectId> {
