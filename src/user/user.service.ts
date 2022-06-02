@@ -7,6 +7,7 @@ import { RegistrationDto } from 'src/auth/dto/auth.dto';
 import { UserDto } from './dto/user.dto';
 import { User, UserDocument } from './schemas/user.schema';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserRole } from './dto/user-role.enum';
 
 @Injectable()
 export class UserService {
@@ -21,6 +22,9 @@ export class UserService {
 
   async getOneById(id: ObjectId): Promise<UserDocument> {
     const user = await this.userModel.findById(id);
+    if (!user) {
+      throw new Error('User not found');
+    }
     return user;
   }
 
@@ -33,6 +37,9 @@ export class UserService {
   }
 
   async update(id: ObjectId, user: UserDto): Promise<User> {
+    if (Object.keys(user).length === 0) {
+      throw new Error('data to update is empty');
+    }
     const res = await this.userModel.findByIdAndUpdate(
       id,
       {
@@ -40,6 +47,9 @@ export class UserService {
       },
       { new: true },
     );
+    if (!res) {
+      throw new Error('User not found');
+    }
     await res.save();
     return res;
   }
@@ -56,23 +66,67 @@ export class UserService {
 
   async updatePassword(id: ObjectId, password: string): Promise<UserDocument> {
     const newPassHash = await bcrypt.hash(password, 10);
-    const res = await this.userModel.findByIdAndUpdate(
-      id,
-      { passwordHash: newPassHash },
-      { new: true },
-    );
-    await res.save();
-    return res;
+    const user = await this.userModel.findById(id);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    if (bcrypt.compare(user.passwordHash, newPassHash)) {
+      throw new Error('New password is the same as old one');
+    }
+    user.passwordHash = newPassHash;
+    await user.save();
+    return user;
   }
 
   async delete(id: ObjectId): Promise<mongoose.Types.ObjectId> {
     const user = await this.userModel.findByIdAndDelete(id);
+    if (!user) {
+      throw new Error('User not found');
+    }
     // eslint-disable-next-line no-underscore-dangle
     return user._id;
   }
 
   async getOneByEmail(email: string): Promise<UserDocument> {
     const user = await this.userModel.findOne({ email });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
+  }
+
+  async setRole(id: ObjectId, role: UserRole): Promise<UserDocument> {
+    const user = await this.userModel.findById(id);
+    if (!UserRole[role]) {
+      throw new Error(`Role ${role} does not exist`);
+    }
+
+    if (user.roles.includes(role)) {
+      throw new Error(`User already has ${UserRole[role].toLowerCase()} role`);
+    }
+    user.roles.push(role);
+    await user.save();
+    return user;
+  }
+
+  async unsetRole(id: ObjectId, role: UserRole): Promise<UserDocument> {
+    const user = await this.userModel.findById(id);
+    const userRole = +role;
+
+    if (userRole === UserRole.Base) {
+      throw new Error('You can not unset base role');
+    }
+    if (!user.roles.includes(userRole)) {
+      throw new Error(
+        `User does not have ${UserRole[userRole].toLowerCase()} role`,
+      );
+    }
+
+    user.roles = user.roles.filter((r) => {
+      return r !== userRole;
+    });
+
+    await user.save();
     return user;
   }
 }
