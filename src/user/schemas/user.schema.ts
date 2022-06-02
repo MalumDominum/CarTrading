@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
-import { Advertisement } from 'src/advertisement/schemas/advertisement.schema';
+import { AdvertisementDocument } from 'src/advertisement/schemas/advertisement.schema';
 import { UserRole } from '../dto/user-role.enum';
 
 export type UserDocument = User & Document;
@@ -35,13 +35,13 @@ export class User {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Advertisement' }],
     default: [],
   })
-  likedCars: Advertisement[];
+  likedCars: AdvertisementDocument[];
 
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Advertisement' }],
     default: [],
   })
-  carsForSale: Advertisement[];
+  carsForSale: AdvertisementDocument[];
 
   @Prop({
     type: [{ type: Number, enum: UserRole }],
