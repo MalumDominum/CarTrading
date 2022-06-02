@@ -6,7 +6,7 @@ import {
   TransmissionType,
 } from '../dto/advertisement.enums';
 
-export type AdvertisementDocuments = Document & Advertisement;
+export type AdvertisementDocument = Document & Advertisement;
 
 @Schema()
 export class Advertisement {
