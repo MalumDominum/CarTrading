@@ -9,11 +9,13 @@ import {
   Req,
   LoggerService,
   Inject,
+  UseGuards,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AuthService } from './auth.service';
 import { LoginDto, RegistrationDto } from './dto/auth.dto';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('/auth')
 export class AuthController {
@@ -71,10 +73,11 @@ export class AuthController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/logout')
-  async logout(@Res() res: Response, @Req() req: Request) {
+  async logout(@Res() res: Response, @Req() req) {
     try {
-      this.logger.log('Logout user');
+      this.logger.log(`Logout user - ${req.user.email}`);
       const { refreshToken } = req.cookies;
       const token = await this.authService.logout(refreshToken);
       res.clearCookie('refreshToken');
