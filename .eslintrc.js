@@ -28,6 +28,7 @@ module.exports = {
     'max-len': ['warn', { code: 80 }],
     'import/prefer-default-export': 'off',
     'class-methods-use-this': 'off',
+    'no-underscore-dangle': 'off',
     '@typescript-eslint/quotes': [
       'error',
       'single',

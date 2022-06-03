@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
-import { Advertisement } from 'src/advertisement/schemas/advertisement.schema';
+import { AdvertisementDocument } from 'src/advertisement/schemas/advertisement.schema';
 import { UserRole } from '../dto/user-role.enum';
 
 export type UserDocument = User & Document;
@@ -12,10 +12,7 @@ export class User {
   email: string;
 
   @Prop({ required: true })
-  passwordHash: Buffer;
-
-  @Prop({ required: true })
-  passwordSalt: Buffer;
+  passwordHash: string;
 
   @Prop({ required: true })
   firstName: string;
@@ -24,10 +21,10 @@ export class User {
   lastName: string;
 
   @Prop({
-    required: true,
     get: (fileName: string) => {
       return `${process.env.OBJECT_STORAGE_ROOT_URL}${fileName}`;
     },
+    default: '',
   })
   photoPath: string;
 
@@ -36,16 +33,21 @@ export class User {
 
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Advertisement' }],
+    default: [],
   })
-  likedCars: Advertisement[];
+  likedCars: AdvertisementDocument[];
 
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Advertisement' }],
+    default: [],
   })
-  carsForSale: Advertisement[];
+  carsForSale: AdvertisementDocument[];
 
-  @Prop({ enum: UserRole, default: UserRole.Base })
-  role: number;
+  @Prop({
+    type: [{ type: Number, enum: UserRole }],
+    default: [UserRole.Base],
+  })
+  roles: number[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
