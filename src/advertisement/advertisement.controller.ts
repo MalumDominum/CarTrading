@@ -33,41 +33,94 @@ export class AdvertisementController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createAdvertisementDto: AdvertisementDto, @Req() req) {
-    const newAd = await this.advertisementService.create(
-      createAdvertisementDto,
-      req.user.id,
-    );
-    this.logger.log(
-      `Created advertisement with id - ${newAd._id} by user - ${req.user.email} `,
-    );
-    return newAd.toObject();
+    try {
+      this.logger.log(`Create advertisement by user - ${req.user.email} `);
+      const newAd = await this.advertisementService.create(
+        createAdvertisementDto,
+        req.user.id,
+      );
+      this.logger.log(
+        `Created advertisement with id - ${newAd._id} by user - ${req.user.email} `,
+      );
+      return newAd.toObject();
+    } catch (e) {
+      this.logger.error(
+        `Error while creating advertisement by user - ${req.user.email} - ${e.message}`,
+      );
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: e.message,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   @Get()
-  findAll() {
-    return this.advertisementService.findAll();
+  async findAll() {
+    try {
+      return await this.advertisementService.findAll();
+    } catch (e) {
+      this.logger.error(
+        `Error while getting all advertisements - ${e.message}`,
+      );
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: e.message,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: ObjectId) {
-    return this.advertisementService.findOne(id);
+  async findOne(@Param('id') id: ObjectId) {
+    try {
+      return await this.advertisementService.findOne(id);
+    } catch (e) {
+      this.logger.error(
+        `Error while getting advertisement with id - ${id} - ${e.message}`,
+      );
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: e.message,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: ObjectId,
     @Body() updateAdvertisementDto: AdvertisementDto,
     @Req() req,
   ) {
-    this.logger.log(
-      `Update advertisement with id - ${id} by user - ${req.user.email} `,
-    );
-    return this.advertisementService.update(
-      id,
-      updateAdvertisementDto,
-      req.user.id,
-    );
+    try {
+      this.logger.log(
+        `Update advertisement with id - ${id} by user - ${req.user.email} `,
+      );
+      return await this.advertisementService.update(
+        id,
+        updateAdvertisementDto,
+        req.user.id,
+      );
+    } catch (e) {
+      this.logger.error(
+        `Error while updating advertisement with id - ${id} by user - ${req.user.email} - ${e.message}`,
+      );
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: e.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   @Roles(UserRole.Admin)
@@ -123,7 +176,7 @@ export class AdvertisementController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':id/like')
+  @Post(':id/like')
   async likeAd(@Param('id') id: ObjectId, @Req() req) {
     this.logger.log(
       `Like advertisement with id - ${id} by user - ${req.user.email} `,
@@ -143,15 +196,46 @@ export class AdvertisementController {
       );
     }
   }
-  // TODO: implement this method
-  //   @UseGuards(JwtAuthGuard)
-  //   @Get('liked-ads/get-all')
-  // async findUserLikedAds(@Req() req) {
 
-  // }
-  // TODO: implement this method
-  // @UseGuards(JwtAuthGuard)
-  // @Delete('liked-ads/remove/:id')
-  // async removeLikedAd(@Param('id') id: ObjectId, @Req() req) {
-  // }
+  @UseGuards(JwtAuthGuard)
+  @Get('liked-ads/get-all')
+  async findUserLikedAds(@Req() req) {
+    this.logger.log(`Get liked ads by user - ${req.user.email} `);
+    try {
+      return await this.advertisementService.findUserLikedAds(req.user.id);
+    } catch (e) {
+      this.logger.error(
+        `Error while getting liked ads by user - ${req.user.email} - ${e.message}`,
+      );
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: e.message,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('liked-ads/remove/:id')
+  async removeLikedAd(@Param('id') id: ObjectId, @Req() req) {
+    this.logger.log(
+      `Delete advertisement from liked ads with id - ${id} by user - ${req.user.email} `,
+    );
+    try {
+      return await this.advertisementService.removeLikedAd(id, req.user.id);
+    } catch (e) {
+      this.logger.error(
+        `Error while deleting advertisement from liked ads with id - ${id} by user - ${req.user.email} - ${e.message}`,
+      );
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: e.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }
