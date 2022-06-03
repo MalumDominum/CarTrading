@@ -71,7 +71,9 @@ export class UserService {
     if (!user) {
       throw new Error('User not found');
     }
-    if (bcrypt.compare(user.passwordHash, newPassHash)) {
+    const compare = await bcrypt.compare(password, user.passwordHash);
+
+    if (compare) {
       throw new Error('New password is the same as old one');
     }
     user.passwordHash = newPassHash;
