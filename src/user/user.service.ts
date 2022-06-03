@@ -31,6 +31,7 @@ export class UserService {
   async create(user: RegistrationDto): Promise<UserDocument> {
     const res = await this.userModel.create({
       ...user,
+      roles: [UserRole.Base],
       passwordHash: user.password,
     });
     return res;
@@ -79,7 +80,18 @@ export class UserService {
   }
 
   async delete(id: ObjectId): Promise<mongoose.Types.ObjectId> {
-    const user = await this.userModel.findByIdAndDelete(id);
+    const user = await this.userModel
+      .findById(id)
+      .populate('carsForSale')
+      .then(async (u) => {
+        u.carsForSale.map(async (car) => {
+          await car.remove();
+        });
+        return u;
+      })
+      .then((item) => {
+        return item.remove();
+      });
     if (!user) {
       throw new Error('User not found');
     }
@@ -89,9 +101,6 @@ export class UserService {
 
   async getOneByEmail(email: string): Promise<UserDocument> {
     const user = await this.userModel.findOne({ email });
-    if (!user) {
-      throw new Error('User not found');
-    }
     return user;
   }
 

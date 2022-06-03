@@ -29,6 +29,16 @@ export class VehicleService {
     const { data } = await firstValueFrom(
       this.httpService.get<VehicleResponse<ModelForMakeIdVehicleType>>(url),
     );
+    if (!data) {
+      throw new Error(
+        `Could not get models for make id ${id} and vehicle type ${type}`,
+      );
+    }
+    if (data.Results.length === 0 || data.Count === 0) {
+      throw new Error(
+        `No models for make id ${id} and vehicle type ${type} found`,
+      );
+    }
     return data;
   }
 
@@ -39,6 +49,12 @@ export class VehicleService {
     const { data } = await firstValueFrom(
       this.httpService.get<VehicleResponse<MakeForVehicleType>>(url),
     );
+    if (!data) {
+      throw new Error(`Could not get makes for ${type} type`);
+    }
+    if (data.Results.length === 0 || data.Count === 0) {
+      throw new Error(`No makes for vehicle type ${type} found`);
+    }
     return data;
   }
 
@@ -47,6 +63,12 @@ export class VehicleService {
     const { data } = await firstValueFrom(
       this.httpService.get<VehicleResponse<ModelForMake>>(url),
     );
+    if (!data) {
+      throw new Error(`Could not get models for make ${make}`);
+    }
+    if (data.Results.length === 0 || data.Count === 0) {
+      throw new Error(`No models for make ${make} found`);
+    }
     return data;
   }
 }

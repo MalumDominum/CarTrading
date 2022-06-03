@@ -20,11 +20,17 @@ export class AdvertisementService {
 
   async findAll(): Promise<Advertisement[]> {
     const ads = await this.advertisementModel.find();
+    if (!ads) {
+      throw new Error("Couldn't load ads");
+    }
     return ads;
   }
 
   async findOne(id: ObjectId): Promise<Advertisement> {
     const ad = await this.advertisementModel.findById(id);
+    if (!ad) {
+      throw new Error('Advertisement not found');
+    }
     return ad;
   }
 
@@ -88,6 +94,13 @@ export class AdvertisementService {
     return ad._id;
   }
 
+  async removeMany(ids: ObjectId[]): Promise<number> {
+    const ads = await this.advertisementModel.deleteMany({
+      _id: { $in: ids },
+    });
+    return ads.deletedCount;
+  }
+
   async removeUsersAd(
     adId: ObjectId,
     userId: ObjectId,
@@ -126,15 +139,15 @@ export class AdvertisementService {
   }
 
   async removeLikedAd(
-    userId: ObjectId,
     adId: ObjectId,
+    userId: ObjectId,
   ): Promise<AdvertisementDocument[]> {
     const user = await this.userModel.findById(userId).populate('likedCars');
     if (!user) {
       throw new Error('User not found');
     }
     user.likedCars = user.likedCars.filter((car) => {
-      return car._id !== adId;
+      return car._id.toString() !== adId.toString();
     });
     await user.save();
     return user.likedCars;

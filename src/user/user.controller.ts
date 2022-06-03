@@ -166,10 +166,33 @@ export class UserController {
       this.logger.log(
         `Deleted user with id - ${id} by user with id - ${req.user.id}`,
       );
+
       return await this.userService.delete(id);
     } catch (e) {
       this.logger.error(
         `Error while deleting user with id - ${id} by user with id - ${req.user.id}`,
+      );
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: e.message,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/me/delete')
+  async deleteOneSelf(@Req() req) {
+    try {
+      this.logger.log(
+        `Delet user with id - ${req.user.id} by user with id - ${req.user.id}`,
+      );
+      return await this.userService.delete(req.user.id);
+    } catch (e) {
+      this.logger.error(
+        `Error while deleting user with id - ${req.user.id} by user with id - ${req.user.id}`,
       );
       throw new HttpException(
         {
