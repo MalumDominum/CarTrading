@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { transports, format } from 'winston';
 import { WinstonModule } from 'nest-winston';
-import * as path from 'path';
 import { UserModule } from './user/user.module';
 import { VehicleModule } from './vehicle/vehicle.module';
 import { AdvertisementModule } from './advertisement/advertisement.module';
@@ -30,11 +29,11 @@ import { AuthModule } from './auth/auth.module';
       defaultMeta: { service: 'car-trading-service' },
       transports: [
         new transports.File({
-          filename: path.resolve(__dirname, 'error.log'),
+          filename: './error.log',
           level: 'error',
         }),
         new transports.File({
-          filename: path.resolve(__dirname, 'combined.log'),
+          filename: './combined.log',
         }),
         new transports.Console({
           format: format.combine(format.colorize(), format.simple()),
